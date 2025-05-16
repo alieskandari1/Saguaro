@@ -3,6 +3,8 @@ on:
   push:
     branches: [ master ]
   workflow_dispatch:
+permissions:
+  contents: write
 
 jobs:
   test:
@@ -10,7 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
+          persist-credentials: true
       - name: Changed Files
         id: changed-files-specific
         uses: tj-actions/changed-files@v45.0.3
