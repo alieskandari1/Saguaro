@@ -46,14 +46,14 @@ jobs:
 
       - name: Check Cache Hit and Install Dependencies
         run: |
-          ssh -T ${{ env.remote_host }} <<'ENDSSH'
+          ssh -vvv -T ${{ env.remote_host }} <<'ENDSSH'
           cd /home/ali/${{ env.project }}/ && source venv/bin/activate
           pip install -r requirements.txt
           ENDSSH
 
       - name: run migrations and restart app
         run: |
-          ssh -T ${{ env.remote_host }} <<'ENDSSH'
+          ssh -vvv -T ${{ env.remote_host }} <<'ENDSSH'
           cd /home/ali/${{ env.project }}/ && source venv/bin/activate
           alembic upgrade head
           sudo systemctl restart saguaro.service
