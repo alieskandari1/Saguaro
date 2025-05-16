@@ -38,30 +38,29 @@ jobs:
         with:
           key: ${{ secrets.GURU_SSH_KEY }}
           known_hosts: ${{ secrets.GURU_KNOWN_HOST }}
+          port: ${{ vars.GURU_SSH_PORT }}
 
       - name: Deploy with rsync
-        run: rsync -avz --exclude-from='.rsyncignore' ./ ${{ env.remote_host }}:/home/ali/${{ env.project }}/
+        run: rsync -avz -e "ssh -p ${{ vars.GURU_SSH_PORT }}" --exclude-from='.rsyncignore' ./ ${{ env.remote_host }}:/home/ali/${{ env.project }}/
 
-
-
-      - name: Check Cache Hit and Install Dependencies
+      - name: Install Dependencies
         run: |
-          ssh -vvv -T ${{ env.remote_host }} <<'ENDSSH'
+          ssh -p ${{ vars.GURU_SSH_PORT }} -T ${{ env.remote_host }} <<'ENDSSH'
           cd /home/ali/${{ env.project }}/ && source venv/bin/activate
           pip install -r requirements.txt
           ENDSSH
 
       - name: run migrations and restart app
         run: |
-          ssh -vvv -T ${{ env.remote_host }} <<'ENDSSH'
+          ssh -p ${{ vars.GURU_SSH_PORT }} -T ${{ env.remote_host }} <<'ENDSSH'
           cd /home/ali/${{ env.project }}/ && source venv/bin/activate
           alembic upgrade head
-          sudo systemctl restart saguaro.service
+          sudo systemctl restart saguaro_uvicorn.service
           ENDSSH
 
       - name: pull migration files
         run: |
-          rsync -avrz --relative --exclude '__pycache__' --ignore-existing ${{ env.remote_host }}:/home/ali/${{ env.project }}/alembic/versions ./
+          rsync -avrz -e "ssh -p ${{ vars.GURU_SSH_PORT }}" --relative --exclude '__pycache__' --ignore-existing ${{ env.remote_host }}:/home/ali/${{ env.project }}/alembic/versions ./
           if [[ -n $(git status -s) ]]; then
             git config --global user.name 'Github action';
             git config --global user.email '111229965+alieskandari1@users.noreply.github.com';
