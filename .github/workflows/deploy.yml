@@ -54,7 +54,7 @@ jobs:
           ssh -T ${{ env.remote_host }} <<'ENDSSH'
           cd /home/ali/${{ env.project }}/ && source venv/bin/activate
           alembic upgrade head
-          sudo systemctl restart saguaro_uvicorn.service
+          sudo systemctl restart saguaro.service
           ENDSSH
 
       - name: pull migration files
