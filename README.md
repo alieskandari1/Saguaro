@@ -10,6 +10,12 @@ A robust and secure Task Management API built with FastAPI and PostgreSQL. The A
 - **API Documentation**: Interactive API documentation available at `/docs` endpoint
 - **Security**: Production deployment secured with SSL/TLS
 - **Scalability**: Multiple worker processes for handling concurrent requests
+- **CI/CD Pipeline**: Automated deployment pipeline with GitHub Actions
+  - Automated testing and deployment
+  - Migration safety checks
+  - Zero-downtime deployments
+  - Automatic dependency management
+  - Production migration synchronization
 
 ## Local Development Setup
 
@@ -84,6 +90,28 @@ The project is deployed using a combination of:
    sudo systemctl start saguaro_uvicorn
    ```
 
+## Continuous Integration/Deployment
+
+The project uses GitHub Actions for automated testing and deployment. The CI/CD pipeline includes:
+
+1. **Automated Testing**
+   - Migration file integrity checks
+   - Prevents accidental migration modifications
+   - Ensures database schema consistency
+
+2. **Automated Deployment**
+   - Zero-downtime deployments
+   - Automatic dependency updates
+   - Production migration synchronization
+   - Secure SSH-based deployment
+   - Automatic service restart
+
+3. **Deployment Safety**
+   - Migration safety checks
+   - Automatic rollback on failure
+   - Production migration tracking
+   - Secure credential management
+
 ## Live Demo
 
 The API is currently running at: [https://saguaro.alieskandari.online/docs/](https://saguaro.alieskandari.online/docs/)
@@ -93,3 +121,20 @@ The API is currently running at: [https://saguaro.alieskandari.online/docs/](htt
 Once the application is running, you can access:
 - Interactive API documentation: `/docs`
 - Alternative API documentation: `/redoc`
+
+## Security
+
+The production deployment is secured with:
+- SSL/TLS encryption
+- Secure headers configuration
+- Process isolation
+- User-specific service execution
+- Reverse proxy protection
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
