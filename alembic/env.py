@@ -26,6 +26,9 @@ target_metadata = Base.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
+def get_url():
+    return f"postgresql+asyncpg://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}"
+
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
 
@@ -38,7 +41,7 @@ def run_migrations_offline() -> None:
     script output.
 
     """
-    url = config.get_main_option("sqlalchemy.url")
+    url = get_url()
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -61,7 +64,7 @@ async def run_async_migrations() -> None:
     """
 
     configuration = config.get_section(config.config_ini_section)
-    configuration["sqlalchemy.url"] = f"postgresql+asyncpg://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}"
+    configuration["sqlalchemy.url"] = get_url()
     
     connectable = async_engine_from_config(
         configuration,
