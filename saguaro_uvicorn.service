@@ -1,0 +1,14 @@
+[Unit]
+Description=Task Management API
+After=network.target
+
+[Service]
+User=ali
+Group=www-data
+WorkingDirectory=/home/ali/Saguaro
+Environment="PATH=/home/ali/Saguaro/venv/bin"
+ExecStart=/home/ali/Saguaro/venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --workers 2
+Restart=always
+
+[Install]
+WantedBy=multi-user.target 
